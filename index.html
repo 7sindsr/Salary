@@ -44,7 +44,7 @@ button:active{transform:translateY(1px);}
 .meas{position:absolute; visibility:hidden; white-space:pre; font-family:var(--mono); font-size:17px; font-weight:600;}
 .sfx{position:absolute; top:50%; transform:translateY(-50%); font-size:14px; color:var(--muted); pointer-events:none;}
 .note{font-size:14px; color:var(--muted); margin-top:8px;}
-.note b{font-family:var(--mono); direction:ltr; color:var(--accent); font-weight:600; font-size:15px;}
+.note b{font-family:var(--mono); direction:ltr; color:var(--accent); font-weight:600; font-size:15px; white-space:nowrap;}
 .head{display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;}
 .head span{font-size:16px; font-weight:600;}
 .row{display:flex; gap:8px; align-items:center; margin-bottom:8px;}
@@ -64,7 +64,7 @@ button:active{transform:translateY(1px);}
 .ic{width:11px; height:8px; display:block;}
 .ic.x{width:14px; height:14px;}
 .del{display:flex; align-items:center; justify-content:center;}
-.val{width:124px; flex:none; font-size:15px; font-weight:600; font-family:var(--mono); direction:ltr;}
+.val{width:124px; flex:none; font-size:15px; font-weight:600; font-family:var(--mono); direction:ltr; white-space:nowrap;}
 .pos{color:var(--success);} .neg{color:var(--danger);}
 .del{height:44px; width:34px; padding:0; flex:none; color:var(--text2);}
 .cur{color:var(--muted); font-weight:400; font-size:.85em;}
@@ -75,21 +75,24 @@ button:active{transform:translateY(1px);}
 input.chip{width:116px;}
 .hr{margin-top:12px; padding-top:12px; border-top:1px solid var(--border);}
 .hr small{font-size:14px; color:var(--muted);}
-.hrv{font-size:20px; font-weight:600; font-family:var(--mono); margin-top:4px; direction:ltr;}
+.hrv{font-size:20px; font-weight:600; font-family:var(--mono); margin-top:4px; direction:ltr; white-space:nowrap; overflow-x:auto;}
 .cols{display:flex; gap:8px; align-items:center; font-size:12px; color:var(--muted); padding:0 2px 6px;}
 .totrow{display:flex; justify-content:space-between; font-size:15px; padding:6px 0;}
-.totrow .v{font-family:var(--mono); direction:ltr;}
+.totrow .v{font-family:var(--mono); direction:ltr; white-space:nowrap;}
 .netbox{display:flex; justify-content:space-between; align-items:baseline; margin-top:14px; background:var(--success-bg); border-radius:var(--radius); padding:14px 16px;}
 .netbox span:first-child{font-size:16px; color:var(--success);}
-.netbox .v{font-size:26px; font-weight:600; color:var(--success); font-family:var(--mono); direction:ltr;}
+.netbox .v{font-size:26px; font-weight:600; color:var(--success); font-family:var(--mono); direction:ltr; white-space:nowrap;}
 .sec{margin-bottom:28px;}
 .foot{text-align:center; margin-top:20px; padding-top:12px; border-top:1px solid var(--border); font-size:12px; color:var(--muted); direction:ltr;}
 .foot b{font-weight:600; letter-spacing:.05em; color:var(--text2);}
 @media (max-width:520px){
   .row{flex-wrap:wrap; gap:6px;}
   .nm{flex:1 1 100%;}
-  .val{width:96px; font-size:14px;}
-  .chip,input.chip{width:96px;}
+  .val,.w-val{width:106px; font-size:13px;}
+  .cur{font-size:.75em;}
+  .frow{flex-wrap:nowrap; gap:6px;}
+  .frow>.chip{flex:1 1 0; width:auto; min-width:0; font-size:15px;}
+  .netbox .v{font-size:22px;}
   .pctwrap{width:70px;}
   .arrows,.arrows button,.w-arr{width:24px;}
   .del,.w-del{width:30px;}
