@@ -113,7 +113,6 @@ var lang='en', st=null;
 
 var clone=function(o){return JSON.parse(JSON.stringify(o));};
 var f2=function(x){return x.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});};
-var fp=function(x){return x.toFixed(2);};
 var num=function(v){return parseFloat(String(v).replace(/,/g,''))||0;};
 var clean=function(v){
   var r=String(v).replace(/[^0-9.]/g,''), d=r.split('.');
@@ -282,7 +281,7 @@ function calc(){
     hEl.readOnly=(st.ms!=='man');
   }
   var basic=num(st.basic), houseM=num(st.house)/12;
-  setM('houseM',fp(houseM));
+  setM('houseM',f2(houseM));
   setM('baseSum',f2(basic+houseM));
   var base=basic/DIV;
 
