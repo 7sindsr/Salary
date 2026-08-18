@@ -289,6 +289,7 @@ function sync(el){
 function doReset(){
   st.basic=''; st.house='';
   st.allow.forEach(function(a){a.p=0;});
+  st.ots.forEach(function(o){o.h=0;});
   build(); save();
   var r=document.getElementById('resetBtn');
   if(r){r.textContent=D[lang].done;
