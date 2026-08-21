@@ -192,10 +192,6 @@ function build(){
    + '<div class="note">'+t.per+' = <b id="houseM">0</b></div>'
    + '<div class="note" style="margin-top:4px;">'+t.subtotal+' = <b id="baseSum">0</b></div></div>';
 
-  h+='<div class="head"><span>'+t.allowances+'</span><span class="hbtns"><button id="addAllow">+ '+t.addAllow+'</button><button id="addFixed">+ '+t.addFixed+'</button></span></div>'
-   + '<div id="allowList"></div>'
-   + '<div class="totrow sec" id="allowTotRow" style="padding-top:6px"><span style="color:var(--text2)">'+t.totalAllow+'</span><span class="v pos" id="allowTotal">0.00</span></div>';
-
   h+='<div class="head"><span>'+t.overtime+'</span><button id="addOt">+ '+t.add+'</button></div>';
 
   h+='<div class="cols" id="otCols"><span class="w-fac" style="text-align:center">'+t.factor+'</span>'
@@ -205,7 +201,11 @@ function build(){
 
   h+='<div id="otList"></div><div class="totrow sec" id="otTotRow" style="padding-top:6px"><span style="color:var(--text2)">'+t.totalOt+'</span><span class="v pos" id="otTotal">0.00</span></div>';
 
-  h+='<div class="head"><span>'+t.deductions+'</span><button id="addDed">+ '+t.addDed+'</button></div>'
+  h+='<div class="head"><span>'+t.allowances+'</span><span class="hbtns"><button id="addAllow">+ '+t.addAllow+'</button><button id="addFixed">+ '+t.addFixed+'</button></span></div>'
+   + '<div id="allowList"></div>'
+   + '<div class="totrow sec" id="allowTotRow" style="padding-top:6px"><span style="color:var(--text2)">'+t.totalAllow+'</span><span class="v pos" id="allowTotal">0.00</span></div>';
+
+  h+='<div class="head"><span>'+t.deductions+'</span><span class="hbtns"><button id="addDed">+ '+t.addAllow+'</button><button id="addDedFixed">+ '+t.addFixed+'</button></span></div>'
    + '<div id="dedList"></div>'
    + '<div class="totrow sec" id="dedTotRow" style="padding-top:6px"><span style="color:var(--text2)">'+t.totalDedSec+'</span><span class="v neg" id="dedTotal">0.00</span></div>';
 
@@ -248,7 +248,7 @@ function buildLists(){
   h='';
   st.deds.forEach(function(d,i){
     h+='<div class="row"><input class="nm" id="dn'+i+'" value="'+esc(nameOf(d))+'" placeholder="'+esc(t.newD)+'" />'
-     + pctField('dp'+i,d.p,0.25,t)
+     + (d.f?fixField('df'+i,d.v):pctField('dp'+i,d.p,0.25,t))
      + '<span class="val neg" id="dv'+i+'" style="text-align:'+end+'">0.00</span>'
      + '<button class="del" data-del="d" data-i="'+i+'" aria-label="'+t.rm+'">'+XX+'</button></div>';
   });
@@ -297,7 +297,7 @@ function calc(){
   st.ots.forEach(function(o,i){var v=base*num(o.m)*num(o.h); oT+=v; setM('ov'+i,f2(v));});
   setM('otTotal',f2(oT));
   var dT=0;
-  st.deds.forEach(function(d,i){var b=(d.b==='bh')?(basic+houseM):basic; var v=b*d.p/100; dT+=v; setM('dv'+i,f2(v));});
+  st.deds.forEach(function(d,i){var b=(d.b==='bh')?(basic+houseM):basic; var v=d.f?num(d.v):(b*d.p/100); dT+=v; setM('dv'+i,f2(v));});
   setM('dedTotal',f2(dT));
 
   var gross=basic+houseM+aT+oT;
@@ -317,6 +317,7 @@ function sync(el){
   else if(id.indexOf('om')===0)st.ots[n].m=el.value;
   else if(id.indexOf('oh')===0)st.ots[n].h=el.value;
   else if(id.indexOf('dn')===0)st.deds[n].n=el.value;
+  else if(id.indexOf('df')===0)st.deds[n].v=fmtField(el);
   else if(id.indexOf('dp')===0)st.deds[n].p=num(el.value);
   calc(); save();
 }
@@ -349,6 +350,7 @@ document.addEventListener('click',function(e){
   else if(b.id==='addFixed')st.allow.push({k:null,n:'',f:1,v:''});
   else if(b.id==='addOt')st.ots.push({h:0,m:MUL});
   else if(b.id==='addDed')st.deds.push({k:null,n:'',p:0,b:'b'});
+  else if(b.id==='addDedFixed')st.deds.push({k:null,n:'',f:1,v:'',b:'b'});
   else return;
   buildLists(); save();
 });
